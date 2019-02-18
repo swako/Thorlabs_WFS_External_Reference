@@ -1,0 +1,2059 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Thorlabs.WFS.Interop</name>
+    </assembly>
+    <members>
+        <member name="T:Thorlabs.WFS.Interop.WFS">
+            <summary>
+            WFS IVI instrument driver
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.MaxSpotX">
+            <summary>
+            Max number of spots in x direction
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.MaxSpotY">
+            <summary>
+            Max number of spots in y direction
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.BufferSize">
+            <summary>
+            Maximum string buffer size
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.ImageBufferSize">
+            <summary>
+            Maximum Image Buffer Size
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.DeviceOffsetWFS10">
+            <summary>
+            Device IDs of WFS10 instruments start at 256 decimal
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.DeviceOffsetWFS20">
+            <summary>
+            Device IDs of WFS20 instruments start at 512 decimal
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.DeviceOffsetWFS30">
+            <summary>
+            Device IDs of WFS30 instruments start at 512 decimal
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.DeviceOffsetWFS40">
+            <summary>
+            Device IDs of WFS30 instruments start at 512 decimal
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFSXPixel">
+            <summary>
+            Sensor resolutions in X direction for WFS150/300, depending on camera resolution index
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFSYPixel">
+            <summary>
+            Sensor resolutions in Y direction for WFS150/300, depending on camera resolution index
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFS10XPixel">
+            <summary>
+            Sensor resolutions in X direction for WFS10, depending on camera resolution index
+            </summary>        
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFS10YPixel">
+            <summary>
+            Sensor resolutions in Y direction for WFS10, depending on camera resolution index
+            </summary> 
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFS20XPixel">
+            <summary>
+            Sensor resolutions in X direction for WFS20, depending on camera resolution index
+            </summary> 
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFS20YPixel">
+            <summary>
+            Sensor resolutions in Y direction for WFS20, depending on camera resolution index
+            </summary> 
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFS30XPixel">
+            <summary>
+            Sensor resolutions in X direction for WFS30, depending on camera resolution index
+            </summary>        
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFS30YPixel">
+            <summary>
+            Sensor resolutions in Y direction for WFS30, depending on camera resolution index
+            </summary> 
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFS40XPixel">
+            <summary>
+            Sensor resolutions in X direction for WFS40, depending on camera resolution index
+            </summary> 
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.CamWFS40YPixel">
+            <summary>
+            Sensor resolutions in Y direction for WFS40, depending on camera resolution index
+            </summary> 
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.ZernikeModes">
+            <summary>
+            converts Zernike order to Zernike modes
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.StatBitHighPower">
+            <summary>
+            Power too high (cam saturated)
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.StatBitLowPower">
+            <summary>
+            Power too low (low cam digits)
+            </summary>
+        </member>
+        <member name="F:Thorlabs.WFS.Interop.WFS.StatBitHighAmbientLight">
+            <summary>
+            High ambient light
+            </summary>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.Finalize">
+            <summary>
+            default destructor
+            </summary>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.#ctor(System.IntPtr)">
+            <summary>
+            This function creates an IVI instrument driver session, typically using the C session instrument handle.
+            </summary>
+            <param name="Instrument_Handle">
+            The instrument handle that is used to create an IVI instrument driver session.
+            </param>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.#ctor(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            This function initializes the instrument driver session and performs the following initialization actions:
+            
+            (1) Opens a session to the Default Resource Manager resource and a session to the selected device using the Resource Name.
+            (2) Performs an identification query on the Instrument.
+            (3) Resets the instrument to a known state.
+            (4) Sends initialization commands to the instrument.
+            (5) Returns an instrument handle which is used to differentiate between different sessions of this instrument driver.
+            
+            Notes:
+            (1) Each time this function is invoked an unique session is opened.  
+            </summary>
+            <param name="Resource_Name">
+            This parameter specifies the interface of the device that is to be initialized.The resource name has to follow the syntax:
+            
+            "USB::0x1313::0x0000::" followed by the Device ID.
+            
+            The Device ID can be get with the function "WFS_GetInstrumentListInfo". E.g. "USB::0x1313::0x0000::1"
+            
+            
+            </param>
+            <param name="ID_Query">
+            Performs an In-System Verification.
+            Checks if the resource matches the vendor and product id.
+            </param>
+            <param name="Reset_Device">
+            Performs Reset operation and places the instrument in a pre-defined reset state.
+            </param>
+        </member>
+        <member name="P:Thorlabs.WFS.Interop.WFS.Handle">
+            <summary>
+            Gets the instrument handle.
+            </summary>
+            <value>
+            The value is the IntPtr that represents the handle to the instrument.
+            </value>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetInstrumentInfo(System.Text.StringBuilder,System.Text.StringBuilder,System.Text.StringBuilder,System.Text.StringBuilder)">
+            <summary>
+            This function returns the following information about the opened instrument:
+            - Driver Manufacturer Name
+            - Instrument Name
+            - Instrument Serial Number
+            - Camera Serial Number
+            
+            </summary>
+            <param name="Manufacturer_Name">
+            This parameter returns the Manufacturer Name of this instrument driver.
+            
+            Note: The string must contain at least WFS_BUFFER_SIZE (256) elements (char[WFS_BUFFER_SIZE]). 
+            </param>
+            <param name="Instrument_Name_WFS">
+            This parameter returns the Instrument Name of the WFS.
+            
+            Note: The string must contain at least WFS_BUFFER_SIZE (256) elements (char[WFS_BUFFER_SIZE]). 
+            </param>
+            <param name="Serial_Number_WFS">
+            This parameter returns the Serial Number of the WFS.
+            
+            Note: The string must contain at least WFS_BUFFER_SIZE (256) elements (char[WFS_BUFFER_SIZE]).
+            </param>
+            <param name="Serial_Number_Cam">
+            This parameter returns the Serial Number of the camera body the WFS is based on.
+            
+            Note: The string must contain at least WFS_BUFFER_SIZE (256) elements (char[WFS_BUFFER_SIZE]).
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.ConfigureCam(System.Int32,System.Int32,System.Int32@,System.Int32@)">
+            <summary>
+            This function configures the WFS instrument's camera resolution and returns the max. number of detectable spots in X and Y direction.
+            
+            The result depends on the selected microlens array in function WFS_SelectMla().
+            
+            Note: This function is not available in Highspeed Mode!
+            </summary>
+            <param name="Pixel_Format">
+            This parameter selects the bit width per pixel of the returned camera image. Thorlabs WFS instruments currently support only 8 bit format.
+            </param>
+            <param name="Cam_Resol__Index">
+            This parameter selects the camera resolution in pixels. Only the following pre-defined settings are supported:
+            
+            For WFS instruments:
+             Index  Resolution
+               0    1280x1024         
+               1    1024x1024         
+               2     768x768           
+               3     512x512           
+               4     320x320
+            
+            For WFS10 instruments:
+             Index  Resolution
+               0     640x480         
+               1     480x480         
+               2     360x360           
+               3     260x260           
+               4     180x180
+            
+            For WFS20 instruments:
+             Index  Resolution
+               0    1440x1080            
+               1    1080x1080            
+               2     768x768              
+               3     512x512              
+               4     360x360              
+               5     720x540, bin2 
+               6     540x540, bin2 
+               7     384x384, bin2 
+               8     256x256, bin2 
+               9     180x180, bin2 
+            
+            For WFS30 instruments:
+             Index  Resolution
+               0    1936x1216            
+               1    1216x1216            
+               2    1024x1024              
+               3     768x768              
+               4     512x512              
+               5     360x360
+               6     968x608, sub2 
+               7     608x608, sub2 
+               8     512x512, sub2 
+               9     384x384, sub2 
+              10     256x256, sub2 
+              11     180x180, sub2 
+            
+            For WFS40 instruments:
+             Index  Resolution
+               0    2048x2048            
+               1    1536x1536
+               2    1024x1024              
+               3     768x768              
+               4     512x512              
+               5     360x360
+               6    1024x1024, sub2 
+               7     768x768, sub2 
+               8     512x512, sub2 
+               9     384x384, sub2 
+              10     256x256, sub2 
+              11     180x180, sub2 
+            
+            </param>
+            <param name="Spots_X">
+            This parameter retuns the number of spots which can be detected in X direction, based on the selected camera resolution and Microlens Array in function SetMlaIdx.
+            </param>
+            <param name="Spots_Y">
+            This parameter retuns the number of spots which can be detected in Y direction, based on the selected camera resolution and Microlens Array in function SetMlaIdx.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetHighspeedMode(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            This function activates/deactivates the camera's Highspeed Mode for WFS10/WFS20 instruments.
+            
+            When activated, the camera calculates the spot centroid positions internally and sends the result to the WFS driver instead of sending raw spotfield images.
+            
+            Note:
+            There is no camera image available when Highspeed Mode is activated!
+            Highspeed Mode is not available for WFS150/WFS300/WFS30/WFS40 instruments!
+            </summary>
+            <param name="Highspeed_Mode">
+            This parameter determines if the camera's Highspeed Mode is switched on or off.
+            </param>
+            <param name="Adapt_Centroids">
+            When Highspeed Mode is selected, this parameter determines if the centroid positions measured in Normal Mode should be used to adapt the spot search windows for Highspeed Mode.
+            Otherwise, a rigid grid based on reference spot positions is used in Highspeed Mode.
+            </param>
+            <param name="Substract_Offset">
+            This parameter defines an offset level for Highspeed Mode only. All camera pixels will be subtracted by this level before the centroids are being calculated, which increases accuracy.
+            
+            Valid range: 0 ... 255
+            
+            Note: The offset is only valid in Highspeed Mode and must not set too high to clear the spots within the camera image!
+            </param>
+            <param name="Allow_Auto_Exposure">
+            When Highspeed Mode is selected, this parameter determines if the camera should also calculate the image saturation in order enable the auto exposure feature using function WFS_TakeSpotfieldImageAutoExpos() instead of WFS_TakeSpotfieldImage().
+            This option leads to a somewhat reduced measurement speed when enabled.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetHighspeedWindows(System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32[],System.Int32[])">
+            <summary>
+            This function returns data of the spot detection windows valid in Highspeed Mode. Window size and positions depend on options passed to function WFS_SetHighspeedMode().
+            
+            Note: This function is only available when Highspeed Mode is activated!
+            </summary>
+            <param name="Window_Count_X">
+            This parameter returns the number of spot windows in X direction.
+            </param>
+            <param name="Window_Count_Y">
+            This parameter returns the number of spot windows in Y direction.
+            </param>
+            <param name="Window_Size_X">
+            This parameter returns the size in pixels of spot windows in X direction.
+            </param>
+            <param name="Window_Size_Y">
+            This parameter returns the size in pixels of spot windows in Y direction.
+            </param>
+            <param name="Window_Startpos_X">
+            This parameter returns a one-dimensional array containing the start positions in pixels for spot windows in X direction.
+            
+            The required array size is MAX_SPOTS_X.
+            
+            Note: Window Stoppos X = Windows Startpos X + Windows Size X
+            </param>
+            <param name="Window_Startpos_Y">
+            This parameter returns a one-dimensional array containing the start positions in pixels for spot windows in Y direction.
+            
+            The required array size is MAX_SPOTS_Y.
+            
+            Note: Window Stoppos Y = Windows Startpos Y + Windows Size Y
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CheckHighspeedCentroids">
+            <summary>
+            This function checks if the actual measured spot centroid positions are within the calculation windows in Highspeed Mode.
+            
+            Possible error: WFS_ERROR_HIGHSPEED_WINDOW_MISMATCH
+            
+            If this error occures, measured centroids are not reliable for wavefront interrogation because the appropriated spots are truncated.
+            
+            Note: This function is only available when Highspeed Mode is activated!
+            </summary>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetExposureTimeRange(System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function returns the available exposure range of the WFS camera in ms. The range may depend on the camera resolution set by function ConfigureCam.
+            
+            </summary>
+            <param name="Exposure_Time_Min">
+            This parameter returns the minimal exposure time of the WFS camera in ms.
+            </param>
+            <param name="Exposure_Time_Max">
+            This parameter returns the maximal exposure time of the WFS camera in ms.
+            </param>
+            <param name="Exposure_Time_Incr">
+            This parameter returns the smallest possible increment of the exposure time in ms.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetExposureTime(System.Double,System.Double@)">
+            <summary>
+            This function sets the target exposure time for the WFS camera and returns the actual set value.
+            </summary>
+            <param name="Exposure_Time_Set">
+            This parameter sets the target exposure time for the WFS camera in ms.
+            
+            </param>
+            <param name="Exposure_Time_Act">
+            This parameter returns the actual exposure time of the WFS camera in ms.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetExposureTime(System.Double@)">
+            <summary>
+            This function returns the actual exposure time of the WFS camera in ms.
+            </summary>
+            <param name="Exposure_Time_Act">
+            This parameter returns the actual exposure time of the WFS camera in ms.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetMasterGainRange(System.Double@,System.Double@)">
+            <summary>
+            This function returns the available linear master gain range of the WFS camera.
+            
+            Note: Master gain increases image noise! Use higher exposure time to set the WFS camera more sensitive.
+            Lowest master gain of WFS10 camera is 1.5.
+            Master gain of WFS20 camera is fixed to 1.0.
+            </summary>
+            <param name="Master_Gain_Min">
+            This parameter returns the minimal linear master gain value of the WFS camera.
+            </param>
+            <param name="Master_Gain_Max">
+            This parameter returns the maximal linear master gain value of the WFS camera.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetMasterGain(System.Double,System.Double@)">
+            <summary>
+            This function sets the target linear master gain for the WFS camera and returns the actual set master gain.
+            
+            Note: MasterGain of WFS20 is fixed to 1
+            
+            </summary>
+            <param name="Master_Gain_Set">
+            This parameter sets the target linear master gain for the WFS camera.
+            
+            Note: MasterGain of WFS20 is fixed to 1
+            </param>
+            <param name="Master_Gain_Act">
+            This parameter returns the actual linear master gain of the WFS camera.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetMasterGain(System.Double@)">
+            <summary>
+            This function returns the actual set linear master gain.
+            </summary>
+            <param name="Master_Gain_Act">
+            This parameter returns the actual linear master gain of the WFS camera.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetBlackLevelOffset(System.Int32)">
+            <summary>
+            This function sets the black offset level of the WFS camera. A higher black level will increase the intensity level of a dark camera image.
+            </summary>
+            <param name="Black_Level_Offset_Set">
+            This parameter sets the black offset value of the WFS camera. A higher black level will increase the intensity level of a dark camera image.
+            
+            Valid range: 0 ... 255
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetBlackLevelOffset(System.Int32@)">
+            <summary>
+            This function returns the black offset level of the WFS camera.
+            </summary>
+            <param name="Black_Level_Offset_Act">
+            This parameter returns the black offset value of the WFS camera.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetTriggerMode(System.Int32)">
+            <summary>
+            This function sets the hardware/software trigger mode.
+            When the hardware trigger capability is activated, functions TakeSpotfieldImage() and TakeSpotfieldImageAutoExpos() will wait for a trigger event for a short period of time (WFS_TIMEOUT_CAPTURE_TRIGGER = 0.1 sec.) prior to start exposure and will return with error WFS_ERROR_AWAITING_TRIGGER if no trigger event occured.
+            
+            Use function SetTriggerDelay() to define an extra trigger delay time.
+            
+            </summary>
+            <param name="Trigger_Mode">
+            This parameter defines and activates the trigger mode.
+            
+            Valid settings:
+               WFS_HW_TRIGGER_OFF  No HW Trigger, continuous measurement
+                                   with highest speed
+               WFS_HW_TRIGGER_HL   Trigger on high-&gt;low edge
+               WFS_HW_TRIGGER_LH   Trigger on low-&gt;high edge
+               WFS_SW_TRIGGER      Software trigger
+            
+            
+            Note: When WFS_SW_TRIGGER is used, a new measurement is started                      whenever WFS_TakeSpotfieldImage() or                      WFS_TakeSpotfieldImageAutoExpos() is called,
+            Compared to WFS_HW_TRIGGER_OFF lower measurememnt speed is achieved.
+            
+            Note: For WFS150/WFS300, WFS30 and WFS40 modes WFS_HW_TRIGGER_OFF and WFS_SW_TRIGGER are identical.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetTriggerMode(System.Int32@)">
+            <summary>
+            This function returns the actual hardware/software trigger mode.
+            
+            </summary>
+            <param name="Trigger_Mode">
+            This parameter returns the actual trigger mode.
+            
+            Valid trigger modes:
+               WFS_HW_TRIGGER_OFF  No HW Trigger, continuous measurement
+                                   with highest speed
+               WFS_HW_TRIGGER_HL   Trigger on high-&gt;low edge
+               WFS_HW_TRIGGER_LH   Trigger on low-&gt;high edge
+               WFS_SW_TRIGGER      Software trigger
+            
+            
+            Note: When WFS_SW_TRIGGER is used, a new measurement is started                      whenever WFS_TakeSpotfieldImage() or                      WFS_TakeSpotfieldImageAutoExpos() is called,
+            Compared to WFS_HW_TRIGGER_OFF lower measurememnt speed is achieved.
+            
+            Note: For WFS150/WFS300, WFS30 and WFS40 modes WFS_HW_TRIGGER_OFF and WFS_SW_TRIGGER are identical.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetTriggerDelay(System.Int32,System.Int32@)">
+            <summary>
+            This function sets an additional trigger delay for a hardware trigger mode set by function SetTriggerMode().
+            
+            </summary>
+            <param name="Trigger_Delay_Set">
+            This parameter accepts the target trigger delay in ?s. Use function GetTriggerDelayRange() to read out the accepted limits.
+            
+            </param>
+            <param name="Trigger_Delay_Act">
+            This parameter returns the actual trigger delay in ?s which may differ from the target value.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetTriggerDelayRange(System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            This function returns the allowed range for the trigger delay setting in function SetTriggerDelay().
+            
+            </summary>
+            <param name="Trigger_Delay_Min">
+            This parameter returns the minimum adjustable trigger delay in ?s.
+            </param>
+            <param name="Trigger_Delay_Max">
+            This parameter returns the maximum adjustable trigger delay in ?s.
+            
+            </param>
+            <param name="Trigger_Delay_Incr">
+            This parameter returns the accepted minimum increment of the trigger delay in ?s.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetMlaCount(System.Int32@)">
+            <summary>
+            This function returns the number of calibrated Microlens Arrays.
+            </summary>
+            <param name="MLA_Count">
+            This parameter returns the number of calibrated Microlens Arrays.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetMlaData(System.Int32,System.Text.StringBuilder,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function returns calibration data of the desired Microlens Array index. The number of calibrated lenslet arrays can be derived by function GetMlaCals.
+            
+            Note: The calibration data are not automatically set active.
+            </summary>
+            <param name="MLA_Index">
+            This parameter defines the index of a removable microlens array.
+            
+            Valid range: 0 ... MLACount-1
+            
+            </param>
+            <param name="MLA_Name">
+            This parameter returns the name of the Microlens Array.
+            
+            Note: The string must contain at least WFS_BUFFER_SIZE (256) elements (char[WFS_BUFFER_SIZE]).
+            </param>
+            <param name="Cam_Pitch__m">
+            This parameter returns the camera pixel pitch in ?m.
+            
+            </param>
+            <param name="Lenslet_Pitch__m">
+            This parameter returns the Microlens Array pitch in ?m.
+            
+            </param>
+            <param name="Spot_Offset_X">
+            This parameter returns the X Offset of the central MLA lenslet.
+            </param>
+            <param name="Spot_Offset_Y">
+            This parameter returns the Y Offset of the central MLA lenslet.
+            
+            </param>
+            <param name="Lenslet_f__m">
+            This parameter returns the calibrated distance (focal length) of  the Microlens Array in ?m.
+            
+            </param>
+            <param name="Grd_Corr_0">
+            This parameter returns the calibrated correction value for astigmatism 0? of the Microlens Array in ppm.
+            
+            </param>
+            <param name="Grd_Corr_45">
+            This parameter returns the calibrated correction value for astigmatism 45? of the Microlens Array in ppm.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetMlaData2(System.Int32,System.Text.StringBuilder,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function returns calibration data of the desired Microlens Array index. The number of calibrated lenslet arrays can be derived by function GetMlaCals.
+            
+            Note: The calibration data are not automatically set active.
+            </summary>
+            <param name="MLA_Index">
+            This parameter defines the index of a removable microlens array.
+            
+            Valid range: 0 ... MLACount-1
+            
+            </param>
+            <param name="MLA_Name">
+            This parameter returns the name of the Microlens Array.
+            
+            Note: The string must contain at least WFS_BUFFER_SIZE (256) elements (char[WFS_BUFFER_SIZE]).
+            </param>
+            <param name="Cam_Pitch__m">
+            This parameter returns the camera pixel pitch in ?m.
+            
+            </param>
+            <param name="Lenslet_Pitch__m">
+            This parameter returns the Microlens Array pitch in ?m.
+            
+            </param>
+            <param name="Spot_Offset_X">
+            This parameter returns the X Offset of the central MLA lenslet.
+            </param>
+            <param name="Spot_Offset_Y">
+            This parameter returns the Y Offset of the central MLA lenslet.
+            
+            </param>
+            <param name="Lenslet_f__m">
+            This parameter returns the calibrated distance (focal length) of  the Microlens Array in ?m.
+            
+            </param>
+            <param name="Grd_Corr_0">
+            This parameter returns the calibrated correction value for astigmatism 0? of the Microlens Array in ppm.
+            
+            </param>
+            <param name="Grd_Corr_45">
+            This parameter returns the calibrated correction value for astigmatism 45? of the Microlens Array in ppm.
+            
+            </param>
+            <param name="Grd_Corr_Rot">
+            This parameter returns the calibrated correction value for rotation of the Microlens Array in 10^-3 deg.
+            
+            </param>
+            <param name="Grd_Corr_Pitch">
+            This parameter returns the calibrated correction value for pitch  of the Microlens Array in ppm.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SelectMla(System.Int32)">
+            <summary>
+            This function selects one of the removable microlens arrays by its index. Appropriate calibration values are read out of the instrument and set active.
+            </summary>
+            <param name="MLA_Index">
+            This parameter defines the index of a removable microlens array to be selected.
+            
+            Valid range: 0 ... Number of calibrated MLAs-1
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetAoi(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            This function defines the area of interest (AOI) within the camera image in position and size. All spots outside this area are ignored for Zernike and wavefront calculations.
+            
+            In order to set the max. available area set all 4 input values to 0.0.
+            </summary>
+            <param name="AOI_Center_X_mm">
+            This parameter defines the AOI center X position in mm. It needs to be within the active camera area defined by function ConfigureCam. Origin is the image center.
+            
+            Note: The parameter must fit to the selected camera area.
+            </param>
+            <param name="AOI_Center_Y_mm">
+            This parameter defines the AOI center Y position in mm. It needs to be within the active camera area defined by function ConfigureCam. Origin is the image center.
+            
+            Note: The parameter must fit to the selected camera area.
+            
+            </param>
+            <param name="AOI_Size_X_mm">
+            This parameter defines the AOI width in mm. The area needs to be within the active camera area defined by function ConfigureCam.
+            
+            
+            Note: The parameter must fit to the selected camera area.
+            </param>
+            <param name="AOI_Size_Y_mm">
+            This parameter defines the AOI height in mm. The area needs to be within the active camera area defined by function ConfigureCam.
+            
+            
+            Note: The parameter must fit to the selected camera area.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetAoi(System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function returns the actual the area of interest (AOI) position and size. All spots outside this area are ignored for BeamView display as well as for Zernike and wavefront calculations.
+            </summary>
+            <param name="AOI_Center_X_mm">
+            This parameter returns the AOI center X position in mm.
+            
+            </param>
+            <param name="AOI_Center_Y_mm">
+            This parameter returns the pupil center Y position in mm.
+            
+            </param>
+            <param name="AOI_Size_X_mm">
+            This parameter returns the AOI X size in mm.
+            
+            </param>
+            <param name="AOI_Size_Y_mm">
+            This parameter returns the AOI Y size in mm.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetPupil(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            This function defines the pupil in position and size.
+            </summary>
+            <param name="Pupil_Center_X_mm">
+            This parameter defines the pupil center X position in mm. It needs to be within the active camera area defined by function ConfigureCam. Origin is the image center.
+            
+            Valid range: -5.0 ... +5.0 mm
+            </param>
+            <param name="Pupil_Center_Y_mm">
+            This parameter defines the pupil center Y position in mm. It needs to be within the active camera area defined by function ConfigureCam. Origin is the image center.
+            
+            Valid range: -5.0 ... +5.0 mm
+            </param>
+            <param name="Pupil_Diameter_X_mm">
+            This parameter defines the pupil X diameter in mm. The pupil area needs to be within the active camera area defined by function ConfigureCam.
+            
+            Valid range: 0.1 ... +10.0 mm
+            </param>
+            <param name="Pupil_Diameter_Y_mm">
+            This parameter defines the pupil Y diameter in mm. The pupil area needs to be within the active camera area defined by function ConfigureCam.
+            
+            Valid range: 0.1 ... +10.0 mm
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetPupil(System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function returns the actual the pupil position and size.
+            </summary>
+            <param name="Pupil_Center_X_mm">
+            This parameter returns the pupil center X position in mm.
+            
+            </param>
+            <param name="Pupil_Center_Y_mm">
+            This parameter returns the pupil center Y position in mm.
+            </param>
+            <param name="Pupil_Diameter_X_mm">
+            This parameter returns the pupil X diameter in mm.
+            </param>
+            <param name="Pupil_Diameter_Y_mm">
+            This parameter returns the pupil Y diameter in mm.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetReferencePlane(System.Int32)">
+            <summary>
+            This function defines the WFS Reference Plane to either Internal or User (external).
+            </summary>
+            <param name="Reference_Index">
+            This parameter sets the Reference Plane to either Internal or User (external).
+            
+            Valid values:
+              0   WFS_REF_INTERNAL
+              1   WFS_REF_USER
+            
+            User reference is based on a file .ref containing spot reference positions which can be loaded and saved by functions LoadUserRefFile and SaveUserRefFile. It's name is specific to the WFS serial number, MLA name and actual camera resolution.
+            
+            A default User Refrence file containing a copy of internal reference data can be created by function CreateDefaultUserReference.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetReferencePlane(System.Int32@)">
+            <summary>
+            This function returns the Reference Plane setting of the WFS instrument.
+            </summary>
+            <param name="Reference_Index">
+            This parameter returns the actual Reference Plane of the WFS instrument.
+            
+            Valid return values:
+              0   WFS_REF_INTERNAL
+              1   WFS_REF_USER
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetStatus(System.Int32@)">
+            <summary>
+            This function returns the device status of the Wavefront Sensor instrument.
+            </summary>
+            <param name="Device_Status">
+            This parameter returns the device status of the Wavefront Sensor
+            instrument. Lower 24 bits are used.
+            
+            Bit         Name             Meaning if bit is set
+            
+            0x00000001  WFS_STATBIT_CON  USB CONnection to device lost
+            0x00000002  WFS_STATBIT_PTH  Power Too High (cam saturated)
+            0x00000004  WFS_STATBIT_PTL  Power Too Low (low cam digits)
+            0x00000008  WFS_STATBIT_HAL  High Ambient Light
+            0x00000010  WFS_STATBIT_SCL  Spot Contrast too Low
+            0x00000020  WFS_STATBIT_ZFL  Zernike fit Failed, Low spots no.
+            0x00000040  WFS_STATBIT_ZFH  Zernike fit Failed, High spots no.
+            0x00000080  WFS_STATBIT_ATR  Camera is still Awaiting a TRigger
+                                         
+            0x00000100  WFS_STATBIT_CFG  Camera is ConFiGured
+            0x00000200  WFS_STATBIT_PUD  PUpil is Defined
+            0x00000400  WFS_STATBIT_SPC  No. of Spots or Pupil Changed
+            0x00000800  WFS_STATBIT_RDA  Reconstr. spot Deviation Available
+            0x00001000  WFS_STATBIT_URF  No User ReFerence available
+            
+            0x00002000  WFS_STATBIT_HSP  Camera is in HighSPeed Mode
+            0x00004000  WFS_STATBIT_MIS  MISmatched centroids in Highspeed
+                                         Mode
+            0x00008000  WFS_STATBIT_LOS  LOw Spot count within pupil,
+                                         reduces Zernike accuracy
+            0x00010000  WFS_STATBIT_FIL, Pupil badly FILled with spots,
+                                         reduces Zernike accuracy
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.TakeSpotfieldImage">
+            <summary>
+            This function receives a spotfield image from the WFS camera into a driver buffer. The reference to this buffer is provided by function GetSpotfieldImage() and an image copy is returned by function GetSpotfieldImageCopy().
+            
+            In case of unsuited image exposure the function sets the appropriate status bits. Use function GetStatus() to check the reason.
+            
+            Bit         Name             Meaning if bit is set
+            
+            0x00000002  WFS_STATBIT_PTH  Power Too High (cam saturated)
+            0x00000004  WFS_STATBIT_PTL  Power Too Low (low cam digits)
+            0x00000008  WFS_STATBIT_HAL  High Ambient Light
+            
+            You need to set optimized exposure and gain settings by functions SetExposureTime() and SetMasterGain() and repeate calling the function until these status bits are cleared.
+            
+            Alternatively, you may use function GetImageAutoExpos().
+            
+            
+            When the trigger capability is activated by function SetTriggerMode() this function will wait for a trigger event for a short period of time (WFS_TIMEOUT_CAPTURE_TRIGGER = 0.1 sec.) prior to start exposure and will return with error WFS_ERROR_AWAITING_TRIGGER if no trigger event occured.
+            You need to repeate calling this function until this error and status bit WFS_STATBIT_ATR disappear.
+            </summary>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.TakeSpotfieldImageAutoExpos(System.Double@,System.Double@)">
+            <summary>
+            This function tries to find optimal exposure and gain settings and then it receives a spotfield image from the WFS camera into a driver buffer. The reference to this buffer is provided by function GetSpotfieldImage() and an image copy is returned by function GetSpotfieldImageCopy().
+            
+            The exposure and gain settings used for this image are returned.
+            
+            In case of still unsuited image exposure the function sets the appropriate status bits. Use function GetStatus() to check the reason.
+            
+            Bit         Name             Meaning if bit is set
+            
+            0x00000002  WFS_STATBIT_PTH  Power Too High (cam saturated)
+            0x00000004  WFS_STATBIT_PTL  Power Too Low (low cam digits)
+            0x00000008  WFS_STATBIT_HAL  High Ambient Light
+            
+            You may repeate calling the function until these status bits are cleared.
+            
+            
+            When the trigger capability is activated by function SetTriggerMode() this function will wait for a trigger event for a short period of time (WFS_TIMEOUT_CAPTURE_TRIGGER = 0.1 sec.) prior to start exposure and will return with error WFS_ERROR_AWAITING_TRIGGER if no trigger event occured.
+            You need to repeate calling this function until this error and status bit WFS_STATBIT_ATR disappear.
+            
+            Note: This function is not available in Highspeed Mode!
+            </summary>
+            <param name="Exposure_Time_Act">
+            This parameter returns the automatically selected actual exposure time the camera image was taken with.
+            </param>
+            <param name="Master_Gain_Act">
+            This parameter returns the automatically selected actual master gain the camera image was taken with.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetSpotfieldImage(System.Byte[],System.Int32@,System.Int32@)">
+            <summary>
+            This function returns the reference to a spotfield image taken by functions TakeSpotfieldImage() or TakeSpotfieldImageAutoExpos().
+            It returns also the image size.
+            
+            Note: This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="ImageBuf">
+            This parameter returns a reference to the image buffer.
+            
+            Note: This buffer is allocated by the camera driver and the actual image size is Rows * Columns.
+            Do not modify this buffer!
+            
+            </param>
+            <param name="Rows">
+            This parameter returns the image height (rows) in pixels.
+            </param>
+            <param name="Columns">
+            This parameter returns the image width (columns) in pixels.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetSpotfieldImageCopy(System.Byte[],System.Int32@,System.Int32@)">
+            <summary>
+            This function returns a copy of the spotfield image taken by functions TakeSpotfieldImage() or TakeSpotfieldImageAutoExpos() into the user provided buffer ImageBuf.
+            It returns also the image size.
+            
+            Note: This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="ImageBuf">
+            This parameter accepts an user provided image buffer.
+            
+            Note: This buffer needs to be allocated by the user. The required size is CAM_MAXPIX_X * CAM_MAXPIX_Y bytes.
+            
+            </param>
+            <param name="Rows">
+            This parameter returns the image height (rows) in pixels.
+            </param>
+            <param name="Columns">
+            This parameter returns the image width (columns) in pixels.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.AverageImage(System.Int32,System.Int32@)">
+            <summary>
+            This function generates an averaged image from a number of input camera images in ImageBuf. The function returns after each call and the summarized image is stored in ImageBufAveraged.
+            
+            As soon as the desired number of averages in AverageCount is reached ImageBuf and ImageBufAveraged return both the averaged image data and AverageDataReady returns 1 instead of 0.
+            
+            Note:
+            As soon as the image size is changed by function ConfigureCam the averaging process is re-started.
+            This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Average_Count">
+            This parameter defines the number of averages.
+            
+            Valid range: 1 ... 256
+            </param>
+            <param name="Averaged_Data_Ready">
+            This parameter returns 0 if the averaging process is going on and 1 when the target average count is reached.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.AverageImageRolling(System.Int32,System.Int32)">
+            <summary>
+            This function generates a rolling averaged image based on all previously entered camera images in ImageBuf. The function returns after each call and the averaged image is returned in ImageBuf and also stored in ImageBufAveraged.
+            
+            The new rolling averaged image is calculated pixel by pixel according to the formula:
+            (AverageCount - 1) * ImageBufAvg + ImageBuf) / AverageCount
+            
+            Note:
+            As soon as the image size is changed by function ConfigureCam the averaging process is re-started.
+            This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Average_Count">
+            This parameter defines the number of rolling averages.
+            
+            Valid range: 1 ... 256
+            </param>
+            <param name="Reset">
+            This parameter resets the rolling averaging process for Reset != 0.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CutImageNoiseFloor(System.Int32)">
+            <summary>
+            This function sets all pixels with intensities &lt; Limit to zero which cuts the noise floor of the camera.
+            
+            Note: This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Limit">
+            This parameter defines the intensity limit. All image pixels with intensities &lt; Limit are set to zero.
+            
+            Valid range: 1 ... 256
+            
+            Note: The Limit must not set too high to clear the spots within the WFS camera image.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcImageMinMax(System.Int32@,System.Int32@,System.Double@)">
+            <summary>
+            This function returns minimum and maximum pixel intensities in ImageBuf as well as the number of saturated pixels in percent.
+            
+            Note: This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Image_Min">
+            This parameter returns the minimum pixel intensity within ImageBuf.
+            
+            </param>
+            <param name="Image_Max">
+            This parameter returns the maximum pixel intensity within ImageBuf.
+            
+            </param>
+            <param name="Saturated_Pixels_Percent">
+            This parameter returns the percentage of saturated pixels within ImageBuf.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcMeanRmsNoise(System.Double@,System.Double@)">
+            <summary>
+            This function returns the mean average and rms variations of the pixel intensities in ImageBuf.
+            
+            Note: This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Mean">
+            This parameter returns the mean average of the pixel intensities in ImageBuf.
+            
+            </param>
+            <param name="Rms">
+            This parameter returns the rms variations of the pixel intensities in ImageBuf.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetLine(System.Int32,System.Single[])">
+            <summary>
+            This function returns a single horizontal line of the image in a linear array.
+            
+            Note: This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Line">
+            This parameter defines the horizontal line to be selected within ImageBuf.
+            
+            Valid range: 0 .. rows-1
+            </param>
+            <param name="Line_Selected">
+            This parameter returns a linear array of floats containing the pixel intensities along the selected line in ImageBuf.
+            
+            The required array size corresponds to the selected image width in function ConfigureCam and is
+               max. 1280 for WFS150/WFS300
+               max   640 for WFS10
+               max. 1440 for WFS20
+               max. 1936 for WFS30
+               max. 2048 for WFS40
+            instruments.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetLineView(System.Single[],System.Single[])">
+            <summary>
+            This function returns two linear arrays containing the minimum and maximum intensities within the image columns, respectively.
+            
+            Note: This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Line_Min">
+            This parameter returns a linear array of floats containing the minimum pixel intensities within all columns of ImageBuf.
+            
+            The required array size corresponds to the selected image width in function ConfigureCam and is
+               max. 1280 for WFS150/WFS300
+               max   640 for WFS10
+               max. 1440 for WFS20
+               max. 1936 for WFS30
+               max. 2048 for WFS40
+            instruments.
+            </param>
+            <param name="Line_Max">
+            This parameter returns a linear array of floats containing the maximum pixel intensities within all columns of ImageBuf.
+            
+            The required array size corresponds to the selected image width in function ConfigureCam and is
+               max. 1280 for WFS150/WFS300
+               max   640 for WFS10
+               max. 1440 for WFS20
+               max. 1936 for WFS30
+               max. 2048 for WFS40
+            instruments.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcBeamCentroidDia(System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function calculates and returns the beam centroid and diameter data based on the intensity distribution of the WFS camera image in mm.
+            
+            Note:
+            The beam centroid is highly sensitive to an increased black level of the camera image. For good accuracy it is recommended to set it as low as needed using function SetBlackLevelOffset.
+            
+            The beam diameter is calculated by the second moment formula. 
+            
+            The initial beam is split into many spots by the lenslets which reduces accuracy also.
+            
+            This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Beam_Centroid_X_mm">
+            This parameter returns the beam centroid X in mm.
+            
+            </param>
+            <param name="Beam_Centroid_Y_mm">
+            This parameter returns the beam centroid Y in mm.
+            
+            </param>
+            <param name="Beam_Diameter_X_mm">
+            This parameter returns the beam diameter X in mm.
+            
+            </param>
+            <param name="Beam_Diameter_Y_mm">
+            This parameter returns the beam diameter Y in mm.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcSpotsCentrDiaIntens(System.Int32,System.Int32)">
+            <summary>
+            This function calculates the centroids, diameters (optional) and intensities of all spots generated by the lenslets.
+            
+            Data arrays are returned by separate functions:
+            GetSpotCentroids
+            GetSpotDiameters
+            GetSpotIntensities
+            
+            Note: This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Dynamic_Noise_Cut">
+            This parameter activates the dynamic noise cut function if DynamicNoiseCut = 1. In this case each detected spot is analyzed using an individual optimized minimum intensity limit.
+            
+            If DynamicNoiseCut is not used (=0) it is recommended to use function CutImageNoiseFloor prior to this function in order to clear lower intensity pixels at a fixed level.
+            </param>
+            <param name="Calculate_Diameters">
+            This parameter activates (=1) or deactivates (=0) the calculation of the spot diameters. Only when activated the function GetSpotDiameters can susequently return valid spot diameters.
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetSpotCentroids(System.Single[0:,0:],System.Single[0:,0:])">
+            <summary>
+            This function returns two two-dimensional arrays containing the centroid X and Y positions in pixels calculated by function WFS_CalcSpotsCentrDiaIntens.
+            
+            Note: Function WFS_CalcSpotsCentrDiaIntens is required to run successfully before calculated data can be retrieved.
+            </summary>
+            <param name="Array_Centroid_X">
+            This parameter returns a two-dimensional array of float containing the centroid X spot positions in pixels.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <param name="Array_Centroid_Y">
+            This parameter returns a two-dimensional array of float containing the centroid Y spot positions in pixels.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetSpotDiameters(System.Single[0:,0:],System.Single[0:,0:])">
+            <summary>
+            This function returns two two-dimensional arrays containing the spot diameters in X and Y direction in pixels calculated by function WFS_CalcSpotsCentrDiaIntens.
+            
+            Note: Function WFS_CalcSpotsCentrDiaIntens is required to run successfully with option CalcDias = 1 before calculated data can be retrieved.
+            This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Array_Diameter_X">
+            This parameter returns a two-dimensional array of float containing the spot diameters in X direction in pixels.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <param name="Array_Diameter_Y">
+            This parameter returns a two-dimensional array of float containing the spot diameters in Y direction in pixels.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetSpotDiaStatistics(System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function calculates statistic parameters of the wavefront calculated in function WFS_CalcWavefront.
+            
+            Note: Function WFS_CalcWavefront is required to run prior to this function.
+            This function is not available in Highspeed Mode! 
+            </summary>
+            <param name="Min">
+            This parameter returns the Minimum spot diameter.
+            </param>
+            <param name="Max">
+            This parameter returns the Maximum spot diameter.
+            </param>
+            <param name="Mean">
+            This parameter returns the Mean average of spot diameters.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetSpotIntensities(System.Single[0:,0:])">
+            <summary>
+            This function returns a two-dimensional array containing the spot intensities in arbitrary unit calculated by function WFS_CalcSpotsCentrDiaIntens.
+            
+            Note: Function WFS_CalcSpotsCentrDiaIntens is required to run successfully before calculated data can be retrieved.
+            </summary>
+            <param name="Array_Intensity">
+            This parameter returns a two-dimensional array of float containing the spot intensities in arbitrary unit.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcSpotToReferenceDeviations(System.Int32)">
+            <summary>
+            This function calculates reference positions and deviations for all spots depending on the setting ref_idx(internal/user) set by function SetWavefrontReference.
+            When option CancelWavefrontTilt is enabled the mean deviation in X and Y direction, which is measured within the pupil, is subtracted from the deviation data arrays.
+            
+            Reference positions can be retrieved using function GetSpotReferencePositions and calculated deviations by function GetSpotDeviations.
+            </summary>
+            <param name="Cancel_Wavefront_Tilt">
+            This parameter forces the mean spot deviations, which are measured within the pupil, to be canceled so that the average wavefront tilt will disappear when calculated with function CalcWavefront.
+            
+            Valid values:
+               0   calculate deviations normal
+               1   subtract mean deviation in pupil from all spot deviations
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetSpotReferencePositions(System.Single[0:,0:],System.Single[0:,0:])">
+            <summary>
+            This function returns two two-dimensional arrays containing the actual X and Y reference spot positions in pixels.
+            
+            A prior call to function WFS_SetReferencePlane() determines whether the internal or user defined reference positions are returned.
+            
+            </summary>
+            <param name="Array_Ref_Pos_X">
+            This parameter returns a two-dimensional array of float containing the actual reference X spot positions in pixels.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <param name="Array_Ref_Pos_Y">
+            This parameter returns a two-dimensional array of float containing the actual reference Y spot positions in pixels.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetSpotDeviations(System.Single[0:,0:],System.Single[0:,0:])">
+            <summary>
+            This function returns two two-dimensional arrays containing the actual X and Y spot deviations between centroid and reference spot positions in pixels calculated by function CalcSpotToReferenceDeviations.
+            
+            Note: Function CalcSpotToReferenceDeviations needs to run prior to this function.
+            
+            </summary>
+            <param name="Array_Deviations_X">
+            This parameter returns a two-dimensional array of float containing the deviation in X direction between centroid and reference spot positions in pixels calculated by function CalcSpotToReferenceDeviations.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <param name="Array_Deviations_Y">
+            This parameter returns a two-dimensional array of float containing the deviation in Y direction between centroid and reference spot positions in pixels calculated by function CalcSpotToReferenceDeviations.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.ZernikeLsf(System.Int32@,System.Single[],System.Single[],System.Double@)">
+            <summary>
+            This function calculates the spot deviations (centroid with respect to its reference) and performs a least square fit to the desired number of Zernike functions.
+            
+            Output results are the Zernike coefficients up to the desired number of Zernike modes and an array summarizing these coefficients to rms amplitudes for each Zernike order.
+            </summary>
+            <param name="Zernike_Orders">
+            This parameter sets and returns the number of desired Zernike modes to fit.
+            An input value 0 sets the number of calculated modes automatically, depending on the number of available spot deviations, and returns it.
+            Input values in the range 2 .. 10 define the number of calculated Zernike modes according to this table: 
+            
+            Input Zernike Order   Calculated Zernike Modes
+                    0 = auto             auto
+                    2                      6
+                    3                     10
+                    4                     15
+                    5                     21
+                    6                     28
+                    7                     36
+                    8                     45
+                    9                     55
+                   10                     66
+            
+            </param>
+            <param name="Array_Zernike_um">
+            This parameter returns a one-dimensional array of float containing the calculated Zernike coefficients.
+            
+            The required array size is [MAX_ZERNIKE_MODES+1] because indices [1..66] are used instead of [0 .. 65].
+            </param>
+            <param name="Array_Zernike_Orders_um">
+            This parameter returns a one-dimensional array of float containing the calculated Zernike coefficients summarizing these coefficients to rms amplitudes for each Zernike order.
+            
+            The required array size is [MAX_ZERNIKE_ORDERS+1] because indices [1..10] are used instead of [0 .. 9].
+            </param>
+            <param name="RoC_mm">
+            This parameter returns the Radius of Curvature RoC for a spherical wavefront in mm, derived from Zernike coefficient Z[5].
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcFourierOptometric(System.Int32,System.Int32,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function calculates the Fourier and Optometric notations from the Zernike coefficients calculated in function WFS_ZernikeLsf.
+            
+            Note: Function WFS_ZernikeLsf is required to run prior to this function.
+            </summary>
+            <param name="Zernike_Orders">
+            This parameter is the calculated number of Zernike orders in function WFS_ZernikeLsf. Use the value returned from this function.
+            </param>
+            <param name="Fourier_Order">
+            This parameter defines the highest Zernike order considered for calculating Fourier coefficients M, J0 and J45 as well as the Optometric parameters Sphere, Cylinder and Axis.
+            
+            Valid settings: 2, 4 or 6
+            </param>
+            <param name="Fourier_M">
+            This parameter returns Fourier coefficient M.
+            </param>
+            <param name="Fourier_J0">
+            This parameter returns Fourier coefficient J0.
+            </param>
+            <param name="Fourier_J45">
+            This parameter returns Fourier coefficient J45.
+            </param>
+            <param name="Opto_Sphere">
+            This parameter returns Optometric parameter Sphere in diopters.
+            </param>
+            <param name="Opto_Cylinder">
+            This parameter returns Optometric parameter Cylinder in diopters.
+            </param>
+            <param name="Opto_Axis_deg">
+            This parameter returns Optometric parameter Axis in deg.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcReconstrDeviations(System.Int32,System.Int32[],System.Int32,System.Double@,System.Double@)">
+            <summary>
+            This function calculates the reconstructed spot deviations based on the calculated Zernike coefficients.
+            
+            Note: This function needs to run prior to function WFS_CalcWavefront when the reconstructed or difference Wavefront should be calculated.
+            </summary>
+            <param name="Zernike_Orders">
+            This parameter is the calculated number of Zernike orders in function WFS_ZernikeLsf. Use the value returned from this function.
+            </param>
+            <param name="Array_Zernike_Reconstruct">
+            This parameter accepts a one-dimensional array of content 0 or 1 indicating if the appropriate Zernike mode is checked for reconstruction or not.
+            
+            Note: Required array dimension is [MAX_ZERNIKE_MODES+1] because valid indices are [1 .. 66] instead of [0 .. 65].
+            
+            Valid array values:
+              0   ignore this Zernike mode in reconstruction
+              1   reconstruct this Zernike mode
+            
+            </param>
+            <param name="Do_Spherical_Reference">
+            This parameter forces only Zernike mode Z[5] to be reconstructed in order to get deviations based on a pure spherical wavefront.
+            
+            Set parameter to 1 to perform a Spherical Reference calibration.
+            
+            Valid values:
+               0   use all Zernike Modes checked in ArrayZernikeReconstruct
+               1   use only Z[5] for pure spherical reconstruction
+            </param>
+            <param name="Fit_Err_Mean">
+            This parameter returns the Mean Fit error in arcmin.
+            </param>
+            <param name="Fit_Err_Stdev">
+            This parameter returns the Standard Deviation Fit error in arcmin.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcWavefront(System.Int32,System.Int32,System.Single[0:,0:])">
+            <summary>
+            This function calculates the wavefront based on the spot deviations.
+            </summary>
+            <param name="Wavefront_Type">
+            This parameter defines the type of wavefront to calculate.
+            
+            Valid settings:
+              0   Measured Wavefront
+              1   Reconstructed Wavefront based on Zernike coefficients
+              2   Difference between measured and reconstructed Wavefront
+            
+            Note: Function WFS_CalcReconstrDeviations needs to be called prior to this function in case of Wavefront type 1 and 2.
+            </param>
+            <param name="Limit_to_Pupil">
+            This parameter defines if the Wavefront should be calculated based on all detected spots or only within the defined pupil.
+            
+            Valid settings:
+               0   Calculate Wavefront for all spots
+               1   Limit Wavefront to pupil interior
+            </param>
+            <param name="Array_Wavefront">
+            This parameter returns a two-dimensional array of float containing the wavefront data in ?m.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction. You may used function Flip2DArray() to flip the index order prior to display by a graphical tool.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CalcWavefrontStatistics(System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            This function returns statistic parameters of the wavefront in ?m calculated by function WFS_CalcWavefront.
+            
+            Note: Function WFS_CalcWavefront is required to run prior to this function.
+            </summary>
+            <param name="Min">
+            This parameter returns the Minimum value of the wavefront.
+            </param>
+            <param name="Max">
+            This parameter returns the Maximum value of the wavefront.
+            </param>
+            <param name="Diff">
+            This parameter returns the Difference between Maximum and Minimum of the wavefront.
+            </param>
+            <param name="Mean">
+            This parameter returns the Mean value of the wavefront.
+            </param>
+            <param name="RMS">
+            This parameter returns the RMS value of the wavefront.
+            </param>
+            <param name="Weighted_RMS">
+            This parameter returns the weighted RMS value of the wavefront. The weighting is based on the individual spot intensity.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.self_test(System.Int16@,System.Text.StringBuilder)">
+            <summary>
+            This function causes the instrument to perform a self-test and returns the result of that self-test.
+            </summary>
+            <param name="Self_Test_Result">
+            Numeric result from self-test operation 
+            0 = no error (test passed).
+            </param>
+            <param name="Self_Test_Message">
+            Self-test status message.
+            </param>
+            <returns>
+            Operational return status. Contains either a completion code or an error code. Instrument driver specific codes that may be returned in addition to the VISA error codes defined in VPP-4.3 and vendor specific codes, are as follows.
+            
+            Completition Codes
+            ----------------------------------------------------------------
+            VI_SUCCESS              Self-test operation successful
+            VI_WARN_NSUP_SELF_TEST  Self-test not supported
+            
+            
+            Vendor Specific Codes
+            ----------------------------------------------------------------
+            For error codes and descriptions see &lt;Error Message&gt;.
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.reset">
+            <summary>
+            Places the instrument in a default state.
+            </summary>
+            <returns>
+            Operational return status. Contains either a completion code or an error code. Instrument driver specific codes that may be returned in addition to the VISA error codes defined in VPP-4.3 and vendor specific codes, are as follows.
+            
+            Completition Codes
+            ----------------------------------------------------------------
+            VI_SUCCESS              Reset operation successful.
+            VI_WARN_NSUP_RESET      Reset not supported.
+            
+            Vendor Specific Codes
+            ----------------------------------------------------------------
+            For error codes and descriptions see &lt;Error Message&gt;.
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.revision_query(System.Text.StringBuilder,System.Text.StringBuilder)">
+            <summary>
+            This function returns the revision of the instrument driver and the firmware revision of the instrument being used.
+            </summary>
+            <param name="Instrument_Driver_Revision">
+            Instrument driver revision.
+            </param>
+            <param name="Firmware_Revision">
+            Instrument firmware revision.
+            </param>
+            <returns>
+            Operational return status. Contains either a completion code or an error code. Instrument driver specific codes that may be returned in addition to the VISA error codes defined in VPP-4.3 and vendor specific codes, are as follows.
+            
+            Completition Codes
+            ----------------------------------------------------------------
+            VI_SUCCESS               Revision query successful
+            VI_WARN_NSUP_REV_QUERY   Instrument revision query not supported
+            
+            
+            Vendor Specific Codes
+            ----------------------------------------------------------------
+            For error codes and descriptions see &lt;Error Message&gt;.
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.error_query(System.Int32@,System.Text.StringBuilder)">
+            <summary>
+            This function queries the instrument and returns instrument-specific error information.
+            </summary>
+            <param name="Error_Code">
+            Instrument error code returned by driver functions.
+            </param>
+            <param name="Error_Message">
+            Error message.
+            The message buffer has to be intialized with 256 bytes.
+            </param>
+            <returns>
+            Operational return status. Contains either a completion code or an error code. Instrument driver specific codes that may be returned in addition to the VISA error codes defined in VPP-4.3 and vendor specific codes, are as follows.
+            
+            Completition Codes
+            ----------------------------------------------------------------
+            VI_SUCCESS                Error query operation successful
+            VI_WARN_NSUP_ERROR_QUERY  Error query not supported
+            
+            
+            Vendor Specific Codes
+            ----------------------------------------------------------------
+            For error codes and descriptions see &lt;Error Message&gt;.
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetInstrumentListLen(System.Int32@)">
+            <summary>
+            This function reads all Wavefront Sensor devices connected to the PC and returns the number of it.
+            
+            Use function GetInstrumentListInfo to retrieve information about each WFS instrument.
+            </summary>
+            <param name="Instrument_Count">
+            This parameter returns the number of WFS instruments connected to the PC.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetInstrumentListInfo(System.Int32,System.Int32@,System.Int32@,System.Text.StringBuilder,System.Text.StringBuilder,System.Text.StringBuilder)">
+            <summary>
+            This function returns information about one connected WFS instrument selected by Instrument Index.
+            </summary>
+            <param name="Instrument_List_Index">
+            This parameter accepts the index of a WFS instrument of the instrument list generated by function GetInstrumentListLen.
+            
+            Valid range: 0 .. InstrumentCount-1
+            
+            Note: The first instrument has index 0.
+            
+            
+            </param>
+            <param name="Device_ID">
+            This parameter returns the Device ID required to open the WFS instrument in function init.
+            
+            </param>
+            <param name="In_Use">
+            This parameter returns the information if the instrument is already used by another application or driver session.
+            
+              0   not in use, free to open
+              1   already in use
+            
+            Note: An instrument already in use will fails to open in function init.
+            </param>
+            <param name="Instrument_Name">
+            This parameter returns the Instrument Name of the selected instrument.
+            
+            Note: The string must contain at least WFS_BUFFER_SIZE (256) elements (char[WFS_BUFFER_SIZE]). 
+            </param>
+            <param name="Instrument_SN">
+            This parameter returns the Serial Number of the selected instrument.
+            
+            Note: The string must contain at least WFS_BUFFER_SIZE (256) elements (char[WFS_BUFFER_SIZE]).
+            </param>
+            <param name="Resource_Name">
+            This resoruce name can be used for the Initialize function.
+            The string has the format: "USB::0x1313::0x0000::" followed by the device ID.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.GetXYScale(System.Single[],System.Single[])">
+            <summary>
+            This function returns two one-dimensional arrays containing the X and Y axis scales in mm for spot intensity and wavefront arrays. The center spot in the image center is denoted (0.0, 0.0) mm.
+            </summary>
+            <param name="Array_Scale_X">
+            This parameter returns a one-dimensional array containing the X scale in mm.
+            
+            The required array size is MAX_SPOTS_X.
+            </param>
+            <param name="Array_Scale_Y">
+            This parameter returns a one-dimensional array containing the Y scale in mm.
+            
+            The required array size is MAX_SPOTS_Y.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.ConvertWavefrontWaves(System.Double,System.Single[0:,0:],System.Single[0:,0:]@)">
+            <summary>
+            This function converts the wavefront data array calculated by function CalcWavefront() from ?m into waves unit depending on the actual wavelength.
+            </summary>
+            <param name="Wavelength">
+            This parameter accepts the actual wavelength in nm.
+            
+            Valid range: 300 ... 1100 nm.
+            </param>
+            <param name="Array_Wavefront_In">
+            This parameter accepts a two-dimensional array of float containing the wavefront data in ?m.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            </param>
+            <param name="Array_Wavefront_Out">
+            This parameter returns a two-dimensional array of float containing the wavefront data in waves.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.Flip2DArray(System.Single[0:,0:],System.Single[0:,0:]@)">
+            <summary>
+            This function flips a 2-dimensional array of size ArrayYX[MAX_SPOTS_Y][MAX_SPOTS_X] into another array ArrayXY[MAX_SPOTS_X][MAX_SPOTS_Y] with fliped x,y index order.
+            
+            This function is helpful to convert data arrays calculated by this WFS driver into a format accepted by graphic tools for display.
+            
+            </summary>
+            <param name="Array_YX">
+            This parameter accepts a two-dimensional array of float and array size [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            </param>
+            <param name="Array_XY">
+            This parameter returns a two-dimensional array of float and array size [MAX_SPOTS_X][MAX_SPOTS_Y]. All array indices are flipped compared to input ArrayYX
+            
+            Note: Array XY must not be the same than Array YX!
+            
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetSpotsToUserReference">
+            <summary>
+            This function copies the measured spot centroid positions to the User Reference spot positions. Consequently spot deviations become zero resulting in a plane wavefront.
+            </summary>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SetCalcSpotsToUserReference(System.Int32,System.Single[0:,0:],System.Single[0:,0:])">
+            <summary>
+            This function sets the X and Y user reference spot positions in pixels to calculated spot positions given by two two-dimensional arrays.
+            
+            </summary>
+            <param name="Reference_Type">
+            This parameter defines the reference type to either relative or or absolute.
+            
+            Valid values:
+              0   WFS_REF_TYPE_REL
+              1   WFS_REF_TYPE_ABS
+            
+            Relative reference type means that the given spot positions are relative (+/- pixels) to the internal factory calibration data whereas absolute reference type denotes absolute spot position data (0 ... max. camera pixels).
+            
+            </param>
+            <param name="Array_Ref_Pos_X">
+            This parameter accepts a two-dimensional array of float containing user calculated reference X spot positions in pixels.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <param name="Array_Ref_Pos_Y">
+            This parameter accepts a two-dimensional array of float containing user calculated reference Y spot positions in pixels.
+            
+            The required array size is [MAX_SPOTS_Y][MAX_SPOTS_X].
+            
+            Note: First array index is the spot number in Y, second index the spot number in X direction.
+            </param>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.CreateDefaultUserReference">
+            <summary>
+            This function generates a default User Reference which is identical to the Internal Reference. Use function GetSpotReferencePositions to get the data arrays.
+            </summary>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.SaveUserRefFile">
+            <summary>
+            This function saves a User Reference spotfield file for the actual selected Microlens Array and image resolution into the folder
+            C:\Users\&lt;user_name&gt;\Documents\Thorlabs\Wavefront Sensor\Reference
+            
+            The file name is automatically set to:
+            WFS_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            or
+            WFS10_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            or
+            WFS20_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            or
+            WFS30_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            or
+            WFS40_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            
+            Example: "WFS_M00224955_MLA150M-5C_0.ref"
+            
+            Note: Centroid positions of undetected spots are stored as 0.0 instead of NaN.
+            </summary>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.LoadUserRefFile">
+            <summary>
+            This function loads a User Reference spotfield file for the actual selected Microlens Array and image resolution from folder
+            C:\Users\&lt;user_name&gt;\Documents\Thorlabs\Wavefront Sensor\Reference
+            
+            The file name is automatically set to:
+            WFS_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            or
+            WFS10_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            or
+            WFS20_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            or
+            WFS30_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            or
+            WFS40_&lt;serial_number_wfs&gt;_&lt;mla_name&gt;_&lt;cam_resol_idx&gt;.ref
+            
+            Example: "WFS_M00224955_MLA150M-5C_0.ref"
+            
+            Note: Centroid positions stored as 0.0 are converted to NaN in the reference spotfield array because they denote undetected spots.
+            </summary>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.DoSphericalRef">
+            <summary>
+            This function calculates User Reference spot positions based on an already performed measurement of a pure sherical wavefront.
+            
+            It supposes an already performed measurement including
+            - calculation of Zernike coefficients with function ZernikeLsf
+            - already calculated reconstructed deviations using function
+              CalcReconstrDeviations with option do_spherical_reference
+              set to 1.
+            
+            Use function SetReferenceType to activate the performed spherical User Reference calibration.
+            </summary>
+            <returns>
+            This value shows the status code returned by the function call.
+            
+            For Status Codes see function ErrorMessage.
+            
+            </returns>
+        </member>
+        <member name="M:Thorlabs.WFS.Interop.WFS.Dispose">
+            <summary>
+            Disposing unmanaged code
+            </summary>
+        </member>
+    </members>
+</doc>

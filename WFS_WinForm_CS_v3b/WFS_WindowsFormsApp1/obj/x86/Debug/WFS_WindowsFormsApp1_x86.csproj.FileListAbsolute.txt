@@ -1,0 +1,13 @@
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\bin\x86\Debug\WFS_WindowsFormsApp1_x86.exe.config
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\bin\x86\Debug\WFS_WindowsFormsApp1_x86.exe
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\bin\x86\Debug\WFS_WindowsFormsApp1_x86.pdb
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\bin\x86\Debug\Thorlabs.WFS.Interop.dll
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\bin\x86\Debug\Thorlabs.WFS.Interop.xml
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\obj\x86\Debug\WFS_WindowsFormsApp1_x86.csprojAssemblyReference.cache
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\obj\x86\Debug\WFS_WindowsFormsApp1_x86.Form1.resources
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\obj\x86\Debug\WFS_WindowsFormsApp1_x86.Properties.Resources.resources
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\obj\x86\Debug\WFS_WindowsFormsApp1_x86.csproj.GenerateResource.cache
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\obj\x86\Debug\WFS_WindowsFormsApp1_x86.csproj.CoreCompileInputs.cache
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\obj\x86\Debug\WFS_WindowsFormsApp1_x86.csproj.CopyComplete
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\obj\x86\Debug\WFS_WindowsFormsApp1_x86.exe
+C:\Users\EXP04\Documents\Visual Studio 2017\Projects\WFS_CS_WinForm_v0b\WFS_WindowsFormsApp1\WFS_WindowsFormsApp1\obj\x86\Debug\WFS_WindowsFormsApp1_x86.pdb
